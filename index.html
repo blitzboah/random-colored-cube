@@ -33,7 +33,7 @@
             grid-template-rows: repeat(16, 8px);
             transform-origin: center;
             border: 1px solid transparent;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Glowing edges */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
 
         .pixel {
@@ -89,7 +89,7 @@
         }
     
         function createPixels(face) {
-            initializeColors(); // Ensure colors are initialized
+            initializeColors();
             for (let i = 0; i < 256; i++) {
                 const pixel = document.createElement('div');
                 pixel.className = 'pixel';
