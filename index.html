@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixelated 3D Cube with Glowing Edges and Three Random Colors</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            margin: 0;
+            perspective: 1000px;
+        }
+
+        .cube {
+            width: 128px;
+            height: 128px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(45deg);
+            animation: rotate 20s infinite linear;
+        }
+
+        .face {
+            position: absolute;
+            width: 128px;
+            height: 128px;
+            display: grid;
+            grid-template-columns: repeat(16, 8px);
+            grid-template-rows: repeat(16, 8px);
+            transform-origin: center;
+            border: 1px solid transparent;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Glowing edges */
+        }
+
+        .pixel {
+            width: 8px;
+            height: 8px;
+        }
+
+        .front  { transform: rotateY(  0deg) translateZ(64px); }
+        .back   { transform: rotateY(180deg) translateZ(64px); }
+        .right  { transform: rotateY( 90deg) translateZ(64px); }
+        .left   { transform: rotateY(-90deg) translateZ(64px); }
+        .top    { transform: rotateX( 90deg) translateZ(64px); }
+        .bottom { transform: rotateX(-90deg) translateZ(64px); }
+
+        @keyframes rotate {
+            0% { transform: rotateX(-30deg) rotateY(45deg); }
+            100% { transform: rotateX(-30deg) rotateY(405deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cube">
+        <div class="face front"></div>
+        <div class="face back"></div>
+        <div class="face right"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+    </div>
+
+    <script>
+        let colorsInitialized = false;
+        let colors = [];
+    
+        function initializeColors() {
+            if (!colorsInitialized) {
+                colors = [randomColorGenerator(), randomColorGenerator(), randomColorGenerator()];
+                colorsInitialized = true;
+            }
+        }
+    
+        function randomColorGenerator() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    
+        function getRandomColor() {
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+    
+        function createPixels(face) {
+            initializeColors(); // Ensure colors are initialized
+            for (let i = 0; i < 256; i++) {
+                const pixel = document.createElement('div');
+                pixel.className = 'pixel';
+                pixel.style.backgroundColor = getRandomColor();
+                face.appendChild(pixel);
+            }
+        }
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.face').forEach(face => createPixels(face));
+        });
+    </script>
+    
+</body>
+</html>
+
